@@ -39,3 +39,6 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# Catalog data — managed independently (will be served by API)
+data/
