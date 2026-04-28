@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { Moon, Sun, WifiOff } from 'lucide-react-native';
-import { FlatList, Image, Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { FlatList, Image, Linking, Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import type { Module } from '@entities/module';
 import { ModuleCard } from '@features/module-selection';
@@ -20,6 +20,7 @@ const GRID_PADDING = Spacing[6];
 const LOGO_WIDTH = 180;
 const LOGO_HEIGHT = 60;
 const TOGGLE_HIT_SLOP = { top: 8, bottom: 8, left: 8, right: 8 };
+const OBO_SITE_URL = 'https://obomasterclass.com/';
 
 function getColumnCount(screenWidth: number): 1 | 2 | 3 {
   if (screenWidth >= Breakpoint.lg) return 3;
@@ -46,12 +47,14 @@ export function HomeScreen() {
     <View style={[styles.container, { backgroundColor: theme.bgBase }]}>
       <View style={styles.header}>
         <View style={styles.topRow}>
-          <Image
-            source={LOGO_SOURCE}
-            style={styles.logo}
-            resizeMode="contain"
-            accessibilityLabel="OBO Master Class"
-          />
+          <Pressable onPress={() => Linking.openURL(OBO_SITE_URL)} accessibilityRole="link" accessibilityLabel="OBO Master Class">
+            <Image
+              source={LOGO_SOURCE}
+              style={styles.logo}
+              resizeMode="contain"
+              accessibilityLabel="OBO Master Class"
+            />
+          </Pressable>
           <View style={styles.controls}>
             <LocaleToggle locale={locale} theme={theme} onToggle={toggleLocale} />
             <ThemeToggle colorScheme={colorScheme} theme={theme} onToggle={toggleTheme} />
