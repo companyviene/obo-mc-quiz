@@ -45,7 +45,7 @@ export function FullScreenPlayer({ uri }: Props) {
       <VideoView
         style={styles.video}
         player={player}
-        allowsFullscreen
+        fullscreenOptions={{ enable: true, orientation: 'landscape' }}
         allowsPictureInPicture={false}
         contentFit="contain"
         nativeControls
