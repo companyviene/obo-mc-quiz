@@ -38,18 +38,18 @@ export function PlayerScreen({ questionId }: Props) {
     <View style={styles.container}>
       <FullScreenPlayer uri={playbackUri} />
       <View style={styles.overlay} pointerEvents="box-none">
-        <Pressable
-          onPress={handleClose}
-          style={[styles.closeButton, { backgroundColor: theme.bgOverlay }]}
-          accessibilityRole="button"
-          accessibilityLabel={t('player.a11yClose')}
-        >
-          <X size={IconSize.md} color={OVERLAY_TEXT_COLOR} />
-        </Pressable>
-        <View style={[styles.questionLabel, { backgroundColor: theme.bgOverlay }]}>
+        <View style={[styles.topBar, { backgroundColor: theme.bgOverlay }]} pointerEvents="box-none">
           <Txt style={[styles.questionText, { color: OVERLAY_TEXT_COLOR }]} numberOfLines={2}>
             {question.label}
           </Txt>
+          <Pressable
+            onPress={handleClose}
+            style={[styles.closeButton, { backgroundColor: theme.bgOverlay }]}
+            accessibilityRole="button"
+            accessibilityLabel={t('player.a11yClose')}
+          >
+            <X size={IconSize.md} color={OVERLAY_TEXT_COLOR} />
+          </Pressable>
         </View>
       </View>
     </View>
@@ -59,27 +59,32 @@ export function PlayerScreen({ questionId }: Props) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: PLAYER_BACKGROUND },
   overlay: { ...StyleSheet.absoluteFillObject },
-  closeButton: {
+  topBar: {
     position: 'absolute',
     top: Spacing[12],
+    left: Spacing[5],
     right: Spacing[5],
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing[3],
+    borderRadius: Radius.md,
+    paddingVertical: Spacing[3],
+    paddingLeft: Spacing[4],
+    paddingRight: Spacing[2],
+  },
+  closeButton: {
     width: Size.closeButtonSize,
     height: Size.closeButtonSize,
     borderRadius: Radius.full,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  questionLabel: {
-    position: 'absolute',
-    bottom: Spacing[12],
-    left: Spacing[5],
-    right: Spacing[5],
-    borderRadius: Radius.md,
-    padding: Spacing[4],
+    flexShrink: 0,
   },
   questionText: {
+    flex: 1,
     fontFamily: FontFamily.medium,
     fontSize: FontSize.base,
     lineHeight: FontSize.base * 1.6,
+    color: OVERLAY_TEXT_COLOR,
   },
 });
