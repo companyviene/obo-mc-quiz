@@ -9,14 +9,14 @@ const RANGE_HEADER_PATTERN = /^bytes=(\d+)-(\d*)$/i;
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  if (url.pathname.startsWith(VIDEO_CACHE_PREFIX)) {
-    event.respondWith(serveVideo(event.request, url.pathname));
-    return;
-  }
+  // Only intercept same-origin requests for the virtual video cache.
+  // Cross-origin requests (video files on obomasterclass.com) must bypass the SW
+  // so the browser handles range requests natively — proxying them through the SW
+  // turns responses opaque and breaks Content-Range headers required for streaming.
+  if (url.origin !== self.location.origin) return;
+  if (!url.pathname.startsWith(VIDEO_CACHE_PREFIX)) return;
 
-  // Explicit network passthrough — required for Chrome to stream cross-origin
-  // video range requests correctly when a Service Worker fetch listener is active.
-  event.respondWith(fetch(event.request));
+  event.respondWith(serveVideo(event.request, url.pathname));
 });
 
 async function serveVideo(request, pathname) {
