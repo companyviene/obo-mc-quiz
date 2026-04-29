@@ -7,7 +7,7 @@ import type { Module } from '@entities/module';
 import { useOfflineCache } from '@features/offline-cache';
 import { QuestionItem } from '@features/question-selection';
 import { useCatalog } from '@shared/api/useCatalog';
-import { IconSize, Spacing, useTheme } from '@shared/design-system';
+import { Breakpoint, IconSize, Spacing, useTheme } from '@shared/design-system';
 import { FontSize } from '@shared/design-system/tokens';
 import { AccentLine } from '@shared/ui/AccentLine';
 import { LoadingSpinner } from '@shared/ui/LoadingSpinner';
@@ -46,28 +46,31 @@ export function ModuleScreen({ moduleId }: Props) {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.bgBase }]}>
-      <View style={styles.header}>
-        <Pressable
-          onPress={handleBack}
-          style={styles.backButton}
-          accessibilityRole="button"
-          accessibilityLabel={t('module.a11yBack')}
-        >
-          <ChevronLeft size={IconSize.md} color={theme.accent} />
-          <Txt style={[styles.backText, { color: theme.accent }]}>{t('module.back')}</Txt>
-        </Pressable>
-        <Txt variant="h2">{module.title}</Txt>
-        <Txt variant="body" style={styles.description}>{module.description}</Txt>
+      <View style={styles.centered}>
+        <View style={styles.header}>
+          <Pressable
+            onPress={handleBack}
+            style={styles.backButton}
+            accessibilityRole="button"
+            accessibilityLabel={t('module.a11yBack')}
+          >
+            <ChevronLeft size={IconSize.md} color={theme.accent} />
+            <Txt style={[styles.backText, { color: theme.accent }]}>{t('module.back')}</Txt>
+          </Pressable>
+          <Txt variant="h2">{module.title}</Txt>
+          <Txt variant="body" style={styles.description}>{module.description}</Txt>
+        </View>
+        <AccentLine color={accentColor} width={Spacing[10]} />
       </View>
-      <AccentLine color={accentColor} width={Spacing[10]} />
       <FlatList
         data={module.questions}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => {
+        renderItem={({ item, index }) => {
           const cache = getVideoCache(item.videoId);
           return (
             <QuestionItem
               question={item}
+              index={index}
               videoStatus={cache.status}
               downloadProgress={cache.progress}
               onPress={handleQuestionPress}
@@ -97,6 +100,11 @@ function SectionLabel({ label, theme }: SectionLabelProps) {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  centered: {
+    width: '100%',
+    maxWidth: Breakpoint.content,
+    alignSelf: 'center',
+  },
   header: {
     paddingHorizontal: Spacing[6],
     paddingTop: Spacing[5],
@@ -113,5 +121,11 @@ const styles = StyleSheet.create({
   backText: { fontSize: FontSize.base },
   description: { fontSize: FontSize.sm },
   sectionLabel: { marginBottom: Spacing[4] },
-  list: { paddingHorizontal: Spacing[6], paddingBottom: Spacing[8] },
+  list: {
+    paddingHorizontal: Spacing[6],
+    paddingBottom: Spacing[8],
+    width: '100%',
+    maxWidth: Breakpoint.content,
+    alignSelf: 'center',
+  },
 });

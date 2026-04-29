@@ -92,6 +92,7 @@ export const Shadow = {
 // ─── Grid breakpoints ─────────────────────────────────────────────────────────
 export const Breakpoint = {
   sm: 600,
+  content: 1200,
   lg: 1024,
 } as const;
 

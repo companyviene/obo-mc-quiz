@@ -45,25 +45,27 @@ export function HomeScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.bgBase }]}>
-      <View style={styles.header}>
-        <View style={styles.topRow}>
-          <Pressable onPress={() => Linking.openURL(OBO_SITE_URL)} accessibilityRole="link" accessibilityLabel="OBO Master Class">
-            <Image
-              source={LOGO_SOURCE}
-              style={styles.logo}
-              resizeMode="contain"
-              accessibilityLabel="OBO Master Class"
-            />
-          </Pressable>
-          <View style={styles.controls}>
-            <LocaleToggle locale={locale} theme={theme} onToggle={toggleLocale} />
-            <ThemeToggle colorScheme={colorScheme} theme={theme} onToggle={toggleTheme} />
+      <View style={styles.centered}>
+        <View style={styles.header}>
+          <View style={styles.topRow}>
+            <Pressable onPress={() => Linking.openURL(OBO_SITE_URL)} accessibilityRole="link" accessibilityLabel="OBO Master Class">
+              <Image
+                source={LOGO_SOURCE}
+                style={styles.logo}
+                resizeMode="contain"
+                accessibilityLabel="OBO Master Class"
+              />
+            </Pressable>
+            <View style={styles.controls}>
+              <LocaleToggle locale={locale} theme={theme} onToggle={toggleLocale} />
+              <ThemeToggle colorScheme={colorScheme} theme={theme} onToggle={toggleTheme} />
+            </View>
           </View>
+          <Txt variant="body" style={styles.subtitle}>{t('home.subtitle')}</Txt>
+          {!isOnline && <OfflineBanner theme={theme} label={t('home.offlineActive')} />}
         </View>
-        <Txt variant="body" style={styles.subtitle}>{t('home.subtitle')}</Txt>
-        {!isOnline && <OfflineBanner theme={theme} label={t('home.offlineActive')} />}
+        <AccentLine />
       </View>
-      <AccentLine />
       <FlatList
         key={String(numColumns)}
         data={modules}
@@ -149,6 +151,11 @@ function OfflineBanner({ theme, label }: OfflineBannerProps) {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  centered: {
+    width: '100%',
+    maxWidth: Breakpoint.content,
+    alignSelf: 'center',
+  },
   header: {
     paddingHorizontal: GRID_PADDING,
     paddingTop: Spacing[6],
@@ -183,6 +190,12 @@ const styles = StyleSheet.create({
     borderLeftWidth: Spacing[1],
   },
   offlineText: { fontFamily: FontFamily.medium, fontSize: FontSize.sm },
-  list: { paddingHorizontal: GRID_PADDING, paddingBottom: Spacing[8] },
+  list: {
+    paddingHorizontal: GRID_PADDING,
+    paddingBottom: Spacing[8],
+    width: '100%',
+    maxWidth: Breakpoint.content,
+    alignSelf: 'center',
+  },
   gridCell: { flex: 1 },
 });
