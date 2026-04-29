@@ -8,8 +8,15 @@ const RANGE_HEADER_PATTERN = /^bytes=(\d+)-(\d*)$/i;
 
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
-  if (!url.pathname.startsWith(VIDEO_CACHE_PREFIX)) return;
-  event.respondWith(serveVideo(event.request, url.pathname));
+
+  if (url.pathname.startsWith(VIDEO_CACHE_PREFIX)) {
+    event.respondWith(serveVideo(event.request, url.pathname));
+    return;
+  }
+
+  // Explicit network passthrough — required for Chrome to stream cross-origin
+  // video range requests correctly when a Service Worker fetch listener is active.
+  event.respondWith(fetch(event.request));
 });
 
 async function serveVideo(request, pathname) {
