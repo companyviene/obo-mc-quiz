@@ -1,6 +1,7 @@
 // Initialize i18n before any component renders.
 import '@shared/i18n/i18n';
 
+import { registerServiceWorker } from '@shared/pwa/registerServiceWorker';
 import {
   Poppins_400Regular,
   Poppins_500Medium,
@@ -35,6 +36,10 @@ export default function RootLayout() {
       void SplashScreen.hideAsync();
     }
   }, [fontsLoaded, fontError]);
+
+  useEffect(() => {
+    registerServiceWorker();
+  }, []);
 
   if (!fontsLoaded && !fontError) return null;
 
