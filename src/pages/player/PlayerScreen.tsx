@@ -41,6 +41,35 @@ export function PlayerScreen({ questionId }: Props) {
     null,
   );
 
+  // On web: resolvePlaybackUri is async and returns a Blob URL from Cache
+  // Storage so the video plays offline without Service Worker interception.
+  // On native: synchronous resolution (local file URI or remote URL).
+  const [playbackUri, setPlaybackUri] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!question) return;
+    let cancelled = false;
+    let createdBlobUri: string | null = null;
+
+    resolvePlaybackUri(question.videoId, question.videoRemoteUrl).then(
+      (uri) => {
+        if (cancelled) {
+          if (uri.startsWith("blob:")) URL.revokeObjectURL(uri);
+          return;
+        }
+        createdBlobUri = uri.startsWith("blob:") ? uri : null;
+        setPlaybackUri(uri);
+      },
+    );
+
+    return () => {
+      cancelled = true;
+      if (createdBlobUri) URL.revokeObjectURL(createdBlobUri);
+      setPlaybackUri(null);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [question?.videoId, question?.videoRemoteUrl]);
+
   useEffect(() => {
     if (redirectCountdown === null) return;
     if (redirectCountdown === 0) {
@@ -55,11 +84,7 @@ export function PlayerScreen({ questionId }: Props) {
   }, [redirectCountdown, router]);
 
   if (!question) return <LoadingSpinner message={t("player.loading")} />;
-
-  const playbackUri = resolvePlaybackUri(
-    question.videoId,
-    question.videoRemoteUrl,
-  );
+  if (!playbackUri) return <LoadingSpinner message={t("player.loading")} />;
 
   function handleClose(): void {
     router.back();

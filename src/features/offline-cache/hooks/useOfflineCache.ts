@@ -94,10 +94,13 @@ export function useOfflineCache() {
   }
 
   const resolvePlaybackUri = useCallback(
-    (videoId: string, remoteUrl: string): string => {
-      // On web, always stream from the remote URL.
-      // The Service Worker transparently serves from Cache Storage when available.
-      if (Platform.OS === 'web') return remoteUrl;
+    async (videoId: string, remoteUrl: string): Promise<string> => {
+      if (Platform.OS === "web") {
+        // Retrieve a Blob URL directly from Cache Storage so playback works
+        // fully offline without depending on the Service Worker being active.
+        const blobUri = await getVideoBlobUri(remoteUrl);
+        return blobUri ?? remoteUrl;
+      }
 
       const cached = getVideoCache(videoId);
       if (cached.status === VideoStatus.Cached && cached.localUri) {
