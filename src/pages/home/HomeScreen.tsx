@@ -1,26 +1,25 @@
-import { useRouter } from 'expo-router';
-import { Moon, Sun, WifiOff } from 'lucide-react-native';
-import { FlatList, Image, Linking, Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import type { Module } from '@entities/module';
-import { ModuleCard } from '@features/module-selection';
-import { useCatalog } from '@shared/api/useCatalog';
-import { Breakpoint, IconSize, Radius, Spacing, useTheme, useThemeToggle, type ThemeColors } from '@shared/design-system';
-import { FontFamily, FontSize } from '@shared/design-system/tokens';
-import { useLocale } from '@shared/i18n';
-import { useNetworkStatus } from '@shared/hooks/useNetworkStatus';
-import { AccentLine } from '@shared/ui/AccentLine';
-import { Txt } from '@shared/ui/Txt';
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const LOGO_SOURCE = require('@assets/obo-mc-logo-color.png') as number;
+import { useRouter } from "expo-router";
+import {
+  FlatList,
+  Pressable,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+} from "react-native";
+import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import type { Module } from "@entities/module";
+import { ModuleCard } from "@features/module-selection";
+import { useCatalog } from "@shared/api/useCatalog";
+import { Breakpoint, Spacing, useTheme } from "@shared/design-system";
+import { AppHeader } from "@shared/ui/AppHeader";
+import { Txt } from "@shared/ui/Txt";
 
 const GRID_GAP = Spacing[4];
 const GRID_PADDING = Spacing[6];
-const LOGO_WIDTH = 180;
-const LOGO_HEIGHT = 60;
-const TOGGLE_HIT_SLOP = { top: 8, bottom: 8, left: 8, right: 8 };
-const OBO_SITE_URL = 'https://obomasterclass.com/';
+const SHOWCASE_TAP_COUNT = 5;
+const TAP_RESET_DELAY_MS = 3_000;
+const SECRET_TAP_ZONE_SIZE = 64;
 
 function getColumnCount(screenWidth: number): 1 | 2 | 3 {
   if (screenWidth >= Breakpoint.lg) return 3;
@@ -31,13 +30,28 @@ function getColumnCount(screenWidth: number): 1 | 2 | 3 {
 export function HomeScreen() {
   const router = useRouter();
   const theme = useTheme();
-  const { colorScheme, toggleTheme } = useThemeToggle();
-  const { locale, toggleLocale } = useLocale();
   const { t } = useTranslation();
-  const isOnline = useNetworkStatus();
   const { width: screenWidth } = useWindowDimensions();
   const numColumns = getColumnCount(screenWidth);
   const { modules } = useCatalog();
+
+  const secretTapCountRef = useRef(0);
+  const tapResetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function handleSecretTap(): void {
+    secretTapCountRef.current += 1;
+
+    if (tapResetTimerRef.current) clearTimeout(tapResetTimerRef.current);
+    tapResetTimerRef.current = setTimeout(() => {
+      secretTapCountRef.current = 0;
+    }, TAP_RESET_DELAY_MS);
+
+    if (secretTapCountRef.current >= SHOWCASE_TAP_COUNT) {
+      secretTapCountRef.current = 0;
+      if (tapResetTimerRef.current) clearTimeout(tapResetTimerRef.current);
+      router.push("/showcase");
+    }
+  }
 
   function handleModulePress(moduleId: string): void {
     router.push(`/modules/${moduleId}`);
@@ -45,27 +59,7 @@ export function HomeScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.bgBase }]}>
-      <View style={styles.centered}>
-        <View style={styles.header}>
-          <View style={styles.topRow}>
-            <Pressable onPress={() => Linking.openURL(OBO_SITE_URL)} accessibilityRole="link" accessibilityLabel="OBO Master Class">
-              <Image
-                source={LOGO_SOURCE}
-                style={styles.logo}
-                resizeMode="contain"
-                accessibilityLabel="OBO Master Class"
-              />
-            </Pressable>
-            <View style={styles.controls}>
-              <LocaleToggle locale={locale} theme={theme} onToggle={toggleLocale} />
-              <ThemeToggle colorScheme={colorScheme} theme={theme} onToggle={toggleTheme} />
-            </View>
-          </View>
-          <Txt variant="body" style={styles.subtitle}>{t('home.subtitle')}</Txt>
-          {!isOnline && <OfflineBanner theme={theme} label={t('home.offlineActive')} />}
-        </View>
-        <AccentLine />
-      </View>
+      <AppHeader paddingHorizontal={GRID_PADDING} />
       <FlatList
         key={String(numColumns)}
         data={modules}
@@ -80,69 +74,14 @@ export function HomeScreen() {
         contentContainerStyle={styles.list}
         showsVerticalScrollIndicator={false}
       />
-    </View>
-  );
-}
 
-// ─── Sub-components ────────────────────────────────────────────────────────────
-
-interface LocaleToggleProps {
-  locale: 'fr' | 'en';
-  theme: ThemeColors;
-  onToggle: () => void;
-}
-
-function LocaleToggle({ locale, theme, onToggle }: LocaleToggleProps) {
-  const { t } = useTranslation();
-  const nextLocaleLabel = locale === 'fr' ? 'EN' : 'FR';
-
-  return (
-    <Pressable
-      onPress={onToggle}
-      hitSlop={TOGGLE_HIT_SLOP}
-      style={[styles.toggleButton, { backgroundColor: theme.bgElevated, borderColor: theme.border }]}
-      accessibilityRole="button"
-      accessibilityLabel={t('home.a11yLangToggle')}
-    >
-      <Txt style={[styles.localeLabel, { color: theme.textSecondary }]}>{nextLocaleLabel}</Txt>
-    </Pressable>
-  );
-}
-
-interface ThemeToggleProps {
-  colorScheme: 'dark' | 'light';
-  theme: ThemeColors;
-  onToggle: () => void;
-}
-
-function ThemeToggle({ colorScheme, theme, onToggle }: ThemeToggleProps) {
-  const { t } = useTranslation();
-  const Icon = colorScheme === 'dark' ? Sun : Moon;
-  const a11yLabel = colorScheme === 'dark' ? t('home.a11yToggleLight') : t('home.a11yToggleDark');
-
-  return (
-    <Pressable
-      onPress={onToggle}
-      hitSlop={TOGGLE_HIT_SLOP}
-      style={[styles.toggleButton, { backgroundColor: theme.bgElevated, borderColor: theme.border }]}
-      accessibilityRole="button"
-      accessibilityLabel={a11yLabel}
-    >
-      <Icon size={IconSize.md} color={theme.textSecondary} />
-    </Pressable>
-  );
-}
-
-interface OfflineBannerProps {
-  theme: ThemeColors;
-  label: string;
-}
-
-function OfflineBanner({ theme, label }: OfflineBannerProps) {
-  return (
-    <View style={[styles.offlineBanner, { backgroundColor: theme.bgHighlight, borderLeftColor: theme.textMuted }]}>
-      <WifiOff size={IconSize.sm} color={theme.textMuted} />
-      <Txt style={[styles.offlineText, { color: theme.textMuted }]}>{label}</Txt>
+      {/* Secret tap zone — invisible, bottom-left corner, 5 taps to enter kiosk mode */}
+      <Pressable
+        style={styles.secretTapZone}
+        onPress={handleSecretTap}
+        accessibilityElementsHidden
+        importantForAccessibility="no-hide-descendants"
+      />
     </View>
   );
 }
@@ -151,51 +90,20 @@ function OfflineBanner({ theme, label }: OfflineBannerProps) {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  centered: {
-    width: '100%',
-    maxWidth: Breakpoint.content,
-    alignSelf: 'center',
-  },
-  header: {
-    paddingHorizontal: GRID_PADDING,
-    paddingTop: Spacing[6],
-    paddingBottom: Spacing[5],
-    gap: Spacing[3],
-  },
-  topRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  logo: { width: LOGO_WIDTH, height: LOGO_HEIGHT },
-  controls: { flexDirection: 'row', alignItems: 'center', gap: Spacing[2] },
-  toggleButton: {
-    width: Spacing[10],
-    height: Spacing[10],
-    borderRadius: Radius.full,
-    borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  localeLabel: { fontFamily: FontFamily.bold, fontSize: FontSize.sm },
-  subtitle: { fontSize: FontSize.sm },
-  offlineBanner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing[2],
-    borderRadius: Spacing[2],
-    paddingHorizontal: Spacing[3],
-    paddingVertical: Spacing[2],
-    alignSelf: 'flex-start',
-    borderLeftWidth: Spacing[1],
-  },
-  offlineText: { fontFamily: FontFamily.medium, fontSize: FontSize.sm },
   list: {
     paddingHorizontal: GRID_PADDING,
     paddingBottom: Spacing[8],
-    width: '100%',
+    width: "100%",
     maxWidth: Breakpoint.content,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   gridCell: { flex: 1 },
+  secretTapZone: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    width: SECRET_TAP_ZONE_SIZE,
+    height: SECRET_TAP_ZONE_SIZE,
+    opacity: 0,
+  },
 });
