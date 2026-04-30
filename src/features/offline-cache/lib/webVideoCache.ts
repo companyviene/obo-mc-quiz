@@ -41,7 +41,7 @@ export async function downloadVideoToCache(
       headers: {
         [HEADER_CONTENT_TYPE]: VIDEO_MIME_TYPE,
         [HEADER_CONTENT_LENGTH]: String(blob.size),
-        [HEADER_ACCEPT_RANGES]: 'bytes',
+        [HEADER_ACCEPT_RANGES]: "bytes",
       },
     }),
   );

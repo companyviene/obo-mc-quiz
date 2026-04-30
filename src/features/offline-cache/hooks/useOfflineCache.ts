@@ -1,12 +1,16 @@
-import * as LegacyFileSystem from 'expo-file-system/legacy';
-import { useCallback } from 'react';
-import { Platform } from 'react-native';
-import { VideoStatus } from '@entities/video';
-import { downloadVideoToCache, isVideoCached } from '../lib/webVideoCache';
-import { useCacheStore } from '../store/cacheStore';
+import * as LegacyFileSystem from "expo-file-system/legacy";
+import { useCallback } from "react";
+import { Platform } from "react-native";
+import { VideoStatus } from "@entities/video";
+import {
+  downloadVideoToCache,
+  getVideoBlobUri,
+  isVideoCached,
+} from "../lib/webVideoCache";
+import { useCacheStore } from "../store/cacheStore";
 
 function buildLocalUri(videoId: string): string {
-  const cacheDir = LegacyFileSystem.cacheDirectory ?? 'file:///tmp/';
+  const cacheDir = LegacyFileSystem.cacheDirectory ?? "file:///tmp/";
   return `${cacheDir}obo_${videoId}.mp4`;
 }
 
@@ -19,9 +23,13 @@ export function useOfflineCache() {
   const downloadVideo = useCallback(
     async (videoId: string, remoteUrl: string): Promise<void> => {
       const cached = getVideoCache(videoId);
-      if (cached.status === VideoStatus.Cached || cached.status === VideoStatus.Downloading) return;
+      if (
+        cached.status === VideoStatus.Cached ||
+        cached.status === VideoStatus.Downloading
+      )
+        return;
 
-      if (Platform.OS === 'web') {
+      if (Platform.OS === "web") {
         await downloadVideoWeb(videoId, remoteUrl);
         return;
       }
@@ -31,7 +39,10 @@ export function useOfflineCache() {
     [setDownloading, setCached, setError, getVideoCache], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
-  async function downloadVideoWeb(videoId: string, remoteUrl: string): Promise<void> {
+  async function downloadVideoWeb(
+    videoId: string,
+    remoteUrl: string,
+  ): Promise<void> {
     const alreadyCached = await isVideoCached(remoteUrl);
     if (alreadyCached) {
       // Store remoteUrl as localUri — resolvePlaybackUri always returns remoteUrl on web,
@@ -41,14 +52,19 @@ export function useOfflineCache() {
     }
     setDownloading(videoId, 0);
     try {
-      await downloadVideoToCache(remoteUrl, (progress) => setDownloading(videoId, progress));
+      await downloadVideoToCache(remoteUrl, (progress) =>
+        setDownloading(videoId, progress),
+      );
       setCached(videoId, remoteUrl);
     } catch {
       setError(videoId);
     }
   }
 
-  async function downloadVideoNative(videoId: string, remoteUrl: string): Promise<void> {
+  async function downloadVideoNative(
+    videoId: string,
+    remoteUrl: string,
+  ): Promise<void> {
     const localUri = buildLocalUri(videoId);
     setDownloading(videoId, 0);
 
@@ -58,7 +74,9 @@ export function useOfflineCache() {
       {},
       ({ totalBytesWritten, totalBytesExpectedToWrite }) => {
         const progress =
-          totalBytesExpectedToWrite > 0 ? totalBytesWritten / totalBytesExpectedToWrite : 0;
+          totalBytesExpectedToWrite > 0
+            ? totalBytesWritten / totalBytesExpectedToWrite
+            : 0;
         setDownloading(videoId, progress);
       },
     );
