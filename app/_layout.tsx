@@ -1,7 +1,7 @@
 // Initialize i18n before any component renders.
-import '@shared/i18n/i18n';
+import "@shared/i18n/i18n";
 
-import { registerServiceWorker } from '@shared/pwa/registerServiceWorker';
+import { registerServiceWorker } from "@shared/pwa/registerServiceWorker";
 import {
   Poppins_400Regular,
   Poppins_500Medium,
@@ -9,14 +9,14 @@ import {
   Poppins_700Bold,
   Poppins_800ExtraBold,
   useFonts,
-} from '@expo-google-fonts/poppins';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import { useCacheStore } from '@features/offline-cache';
-import { ThemeProvider, useTheme, useThemeToggle } from '@shared/design-system';
+} from "@expo-google-fonts/poppins";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "expo-status-bar";
+import { useEffect } from "react";
+import { useCacheStore } from "@features/offline-cache";
+import { ThemeProvider, useTheme, useThemeToggle } from "@shared/design-system";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -63,19 +63,23 @@ function AppNavigator() {
 
   return (
     <>
-      <StatusBar style={colorScheme === 'light' ? 'dark' : 'light'} />
+      <StatusBar style={colorScheme === "light" ? "dark" : "light"} />
       <Stack
         screenOptions={{
           headerShown: false,
           contentStyle: { backgroundColor: theme.bgBase },
-          animation: 'slide_from_right',
+          animation: "slide_from_right",
         }}
       >
         <Stack.Screen name="index" />
         <Stack.Screen name="modules/[id]" />
         <Stack.Screen
           name="player/[questionId]"
-          options={{ animation: 'fade', presentation: 'fullScreenModal' }}
+          options={{ animation: "fade", presentation: "fullScreenModal" }}
+        />
+        <Stack.Screen
+          name="showcase"
+          options={{ animation: "fade", presentation: "fullScreenModal" }}
         />
       </Stack>
     </>
