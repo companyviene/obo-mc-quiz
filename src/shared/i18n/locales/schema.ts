@@ -18,6 +18,7 @@ export interface TranslationSchema {
   player: {
     a11yClose: string;
     loading: string;
+    redirectCountdown: string;
   };
   offline: {
     cached: string;
