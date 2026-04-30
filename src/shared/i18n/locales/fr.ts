@@ -27,6 +27,11 @@ const fr: TranslationSchema = {
     title: "Page introuvable",
     backHome: "Retour à l'accueil",
   },
+  showcase: {
+    scanPrompt: "Scannez pour regarder la vidéo",
+    watchVideo: "Regarder la vidéo",
+    exitA11y: "Quitter le mode kiosque",
+  },
 };
 
 export default fr;

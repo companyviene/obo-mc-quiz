@@ -27,6 +27,11 @@ const en: TranslationSchema = {
     title: "Page not found",
     backHome: "Back to home",
   },
+  showcase: {
+    scanPrompt: "Scan to watch the video",
+    watchVideo: "Watch the video",
+    exitA11y: "Exit kiosk mode",
+  },
 };
 
 export default en;

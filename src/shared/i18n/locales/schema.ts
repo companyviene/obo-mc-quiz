@@ -27,4 +27,9 @@ export interface TranslationSchema {
     title: string;
     backHome: string;
   };
+  showcase: {
+    scanPrompt: string;
+    watchVideo: string;
+    exitA11y: string;
+  };
 }
