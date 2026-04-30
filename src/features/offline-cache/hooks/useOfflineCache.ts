@@ -2,7 +2,7 @@ import * as LegacyFileSystem from 'expo-file-system/legacy';
 import { useCallback } from 'react';
 import { Platform } from 'react-native';
 import { VideoStatus } from '@entities/video';
-import { buildVirtualUrl, downloadVideoToCache, isVideoCached } from '../lib/webVideoCache';
+import { downloadVideoToCache, isVideoCached } from '../lib/webVideoCache';
 import { useCacheStore } from '../store/cacheStore';
 
 function buildLocalUri(videoId: string): string {
@@ -32,17 +32,17 @@ export function useOfflineCache() {
   );
 
   async function downloadVideoWeb(videoId: string, remoteUrl: string): Promise<void> {
-    const alreadyCached = await isVideoCached(videoId);
+    const alreadyCached = await isVideoCached(remoteUrl);
     if (alreadyCached) {
-      setCached(videoId, buildVirtualUrl(videoId));
+      // Store remoteUrl as localUri — resolvePlaybackUri always returns remoteUrl on web,
+      // but Cached status lets the OfflineBadge show the correct state.
+      setCached(videoId, remoteUrl);
       return;
     }
     setDownloading(videoId, 0);
     try {
-      await downloadVideoToCache(videoId, remoteUrl, (progress) =>
-        setDownloading(videoId, progress),
-      );
-      setCached(videoId, buildVirtualUrl(videoId));
+      await downloadVideoToCache(remoteUrl, (progress) => setDownloading(videoId, progress));
+      setCached(videoId, remoteUrl);
     } catch {
       setError(videoId);
     }
@@ -77,6 +77,10 @@ export function useOfflineCache() {
 
   const resolvePlaybackUri = useCallback(
     (videoId: string, remoteUrl: string): string => {
+      // On web, always stream from the remote URL.
+      // The Service Worker transparently serves from Cache Storage when available.
+      if (Platform.OS === 'web') return remoteUrl;
+
       const cached = getVideoCache(videoId);
       if (cached.status === VideoStatus.Cached && cached.localUri) {
         return cached.localUri;

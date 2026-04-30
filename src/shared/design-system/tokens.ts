@@ -1,6 +1,8 @@
 // Static design tokens — no color values here.
 // All colors live in theme.ts and are consumed via useTheme().
 
+import { Platform } from 'react-native';
+
 // ─── Icon sizes ───────────────────────────────────────────────────────────────
 // Used with lucide-react-native icons throughout the app.
 export const IconSize = {
@@ -72,22 +74,29 @@ export const Size = {
 } as const;
 
 // ─── Shadows ──────────────────────────────────────────────────────────────────
+// Web uses boxShadow (CSS); native uses the shadow* + elevation props.
 export const Shadow = {
-  sm: {
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  md: {
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.35,
-    shadowRadius: 12,
-    elevation: 8,
-  },
-} as const;
+  sm: Platform.select({
+    web: { boxShadow: '0px 2px 4px rgba(0,0,0,0.25)' } as object,
+    default: {
+      shadowColor: '#000000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 3,
+    },
+  })!,
+  md: Platform.select({
+    web: { boxShadow: '0px 6px 12px rgba(0,0,0,0.35)' } as object,
+    default: {
+      shadowColor: '#000000',
+      shadowOffset: { width: 0, height: 6 },
+      shadowOpacity: 0.35,
+      shadowRadius: 12,
+      elevation: 8,
+    },
+  })!,
+};
 
 // ─── Grid breakpoints ─────────────────────────────────────────────────────────
 export const Breakpoint = {

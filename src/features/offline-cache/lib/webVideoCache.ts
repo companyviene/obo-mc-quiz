@@ -1,24 +1,18 @@
 // CACHE_NAME must stay in sync with public/sw.js
 const CACHE_NAME = 'obo-videos-v1';
-const VIDEO_CACHE_PREFIX = '/video-cache/';
 const VIDEO_MIME_TYPE = 'video/mp4';
 const HEADER_CONTENT_TYPE = 'Content-Type';
 const HEADER_CONTENT_LENGTH = 'Content-Length';
 const HEADER_ACCEPT_RANGES = 'Accept-Ranges';
 
-export function buildVirtualUrl(videoId: string): string {
-  return `${VIDEO_CACHE_PREFIX}${videoId}`;
-}
-
-export async function isVideoCached(videoId: string): Promise<boolean> {
+export async function isVideoCached(remoteUrl: string): Promise<boolean> {
   if (typeof caches === 'undefined') return false;
   const cache = await caches.open(CACHE_NAME);
-  const match = await cache.match(buildVirtualUrl(videoId));
+  const match = await cache.match(remoteUrl);
   return match !== null;
 }
 
 export async function downloadVideoToCache(
-  videoId: string,
   remoteUrl: string,
   onProgress: (progress: number) => void,
 ): Promise<void> {
@@ -42,7 +36,7 @@ export async function downloadVideoToCache(
   const blob = new Blob(chunks, { type: VIDEO_MIME_TYPE });
   const cache = await caches.open(CACHE_NAME);
   await cache.put(
-    buildVirtualUrl(videoId),
+    remoteUrl,
     new Response(blob, {
       headers: {
         [HEADER_CONTENT_TYPE]: VIDEO_MIME_TYPE,

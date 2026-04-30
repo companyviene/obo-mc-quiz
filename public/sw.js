@@ -1,28 +1,29 @@
 // OBO MC Quiz — Service Worker
-// Serves cached videos at /video-cache/{videoId} with range request support.
+// Intercepts video requests (.mp4), serves from Cache Storage when available.
+// Cross-origin videos (Cloudinary) are cached by their full remote URL.
 // CACHE_NAME must stay in sync with src/features/offline-cache/lib/webVideoCache.ts
 
 const CACHE_NAME = 'obo-videos-v1';
-const VIDEO_CACHE_PREFIX = '/video-cache/';
 const RANGE_HEADER_PATTERN = /^bytes=(\d+)-(\d*)$/i;
+
+function isVideoRequest(url) {
+  return url.pathname.endsWith('.mp4');
+}
 
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
-
-  // Only intercept same-origin requests for the virtual video cache.
-  // Cross-origin requests (video files on obomasterclass.com) must bypass the SW
-  // so the browser handles range requests natively — proxying them through the SW
-  // turns responses opaque and breaks Content-Range headers required for streaming.
-  if (url.origin !== self.location.origin) return;
-  if (!url.pathname.startsWith(VIDEO_CACHE_PREFIX)) return;
-
-  event.respondWith(serveVideo(event.request, url.pathname));
+  if (!isVideoRequest(url)) return;
+  event.respondWith(handleVideoRequest(event.request));
 });
 
-async function serveVideo(request, pathname) {
+async function handleVideoRequest(request) {
   const cache = await caches.open(CACHE_NAME);
-  const stored = await cache.match(pathname);
-  if (!stored) return new Response('Not cached', { status: 404 });
+  const stored = await cache.match(request.url);
+
+  if (!stored) {
+    // Not cached — let the browser stream directly from network.
+    return fetch(request);
+  }
 
   const rangeHeader = request.headers.get('range');
   if (!rangeHeader) return stored.clone();
