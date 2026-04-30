@@ -1,17 +1,17 @@
-import { useRouter } from 'expo-router';
-import { ChevronLeft } from 'lucide-react-native';
-import { useEffect } from 'react';
-import { FlatList, Pressable, StyleSheet, View } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import type { Module } from '@entities/module';
-import { useOfflineCache } from '@features/offline-cache';
-import { QuestionItem } from '@features/question-selection';
-import { useCatalog } from '@shared/api/useCatalog';
-import { Breakpoint, IconSize, Spacing, useTheme } from '@shared/design-system';
-import { FontSize } from '@shared/design-system/tokens';
-import { AccentLine } from '@shared/ui/AccentLine';
-import { LoadingSpinner } from '@shared/ui/LoadingSpinner';
-import { Txt } from '@shared/ui/Txt';
+import { useRouter } from "expo-router";
+import { ChevronLeft } from "lucide-react-native";
+import { useEffect } from "react";
+import { FlatList, Platform, Pressable, StyleSheet, View } from "react-native";
+import { useTranslation } from "react-i18next";
+import type { Module } from "@entities/module";
+import { useOfflineCache } from "@features/offline-cache";
+import { QuestionItem } from "@features/question-selection";
+import { useCatalog } from "@shared/api/useCatalog";
+import { Breakpoint, IconSize, Spacing, useTheme } from "@shared/design-system";
+import { FontSize } from "@shared/design-system/tokens";
+import { AccentLine } from "@shared/ui/AccentLine";
+import { LoadingSpinner } from "@shared/ui/LoadingSpinner";
+import { Txt } from "@shared/ui/Txt";
 
 interface Props {
   moduleId: string;
@@ -40,7 +40,25 @@ export function ModuleScreen({ moduleId }: Props) {
     router.back();
   }
 
-  function handleQuestionPress(questionId: string): void {
+  async function handleQuestionPress(questionId: string): Promise<void> {
+    // On web: request fullscreen synchronously within the user gesture, then
+    // AWAIT it before navigating. This guarantees the fullscreen is established
+    // before the SPA navigation, so PlayerScreen opens already fullscreen.
+    // Using document.documentElement covers Chrome/Edge/Firefox.
+    // webkitRequestFullscreen covers desktop Safari.
+    if (Platform.OS === "web" && typeof document !== "undefined") {
+      const el = document.documentElement as Element & {
+        webkitRequestFullscreen?: () => Promise<void>;
+      };
+      const req =
+        el.requestFullscreen?.bind(el) ?? el.webkitRequestFullscreen?.bind(el);
+      try {
+        await req?.();
+      } catch {
+        // Fullscreen rejected (e.g. iOS Safari web — only works as PWA).
+        // Continue to navigate anyway.
+      }
+    }
     router.push(`/player/${questionId}`);
   }
 
@@ -52,13 +70,17 @@ export function ModuleScreen({ moduleId }: Props) {
             onPress={handleBack}
             style={styles.backButton}
             accessibilityRole="button"
-            accessibilityLabel={t('module.a11yBack')}
+            accessibilityLabel={t("module.a11yBack")}
           >
             <ChevronLeft size={IconSize.md} color={theme.accent} />
-            <Txt style={[styles.backText, { color: theme.accent }]}>{t('module.back')}</Txt>
+            <Txt style={[styles.backText, { color: theme.accent }]}>
+              {t("module.back")}
+            </Txt>
           </Pressable>
           <Txt variant="h2">{module.title}</Txt>
-          <Txt variant="body" style={styles.description}>{module.description}</Txt>
+          <Txt variant="body" style={styles.description}>
+            {module.description}
+          </Txt>
         </View>
         <AccentLine color={accentColor} width={Spacing[10]} />
       </View>
@@ -79,7 +101,9 @@ export function ModuleScreen({ moduleId }: Props) {
         }}
         contentContainerStyle={styles.list}
         showsVerticalScrollIndicator={false}
-        ListHeaderComponent={<SectionLabel label={t('module.sectionLabel')} theme={theme} />}
+        ListHeaderComponent={
+          <SectionLabel label={t("module.sectionLabel")} theme={theme} />
+        }
       />
     </View>
   );
@@ -92,7 +116,10 @@ interface SectionLabelProps {
 
 function SectionLabel({ label, theme }: SectionLabelProps) {
   return (
-    <Txt variant="label" style={[styles.sectionLabel, { color: theme.textMuted }]}>
+    <Txt
+      variant="label"
+      style={[styles.sectionLabel, { color: theme.textMuted }]}
+    >
       {label}
     </Txt>
   );
@@ -101,9 +128,9 @@ function SectionLabel({ label, theme }: SectionLabelProps) {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   centered: {
-    width: '100%',
+    width: "100%",
     maxWidth: Breakpoint.content,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   header: {
     paddingHorizontal: Spacing[6],
@@ -112,9 +139,9 @@ const styles = StyleSheet.create({
     gap: Spacing[2],
   },
   backButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "flex-start",
     gap: Spacing[1],
     marginBottom: Spacing[3],
   },
@@ -124,8 +151,8 @@ const styles = StyleSheet.create({
   list: {
     paddingHorizontal: Spacing[6],
     paddingBottom: Spacing[8],
-    width: '100%',
+    width: "100%",
     maxWidth: Breakpoint.content,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
 });
