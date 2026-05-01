@@ -7,6 +7,10 @@ import { Play } from "lucide-react-native";
 interface Props {
   uri: string;
   onEnd?: () => void;
+  /** When true (QR code scan), show a tap-to-play overlay immediately.
+   * Browsers block unmuted autoplay + fullscreen without a user gesture
+   * in a freshly-opened tab. The tap provides that gesture. */
+  kioskMode?: boolean;
 }
 
 type OrientationExtended = ScreenOrientation & {
@@ -33,24 +37,22 @@ function unlockOrientation(): void {
   orientation?.unlock?.();
 }
 
-export function FullScreenPlayer({ uri, onEnd }: Props) {
+export function FullScreenPlayer({ uri, onEnd, kioskMode = false }: Props) {
   const videoViewRef = useRef<VideoView>(null);
   const hasEnteredFullscreen = useRef(false);
 
-  // Fallback overlay: shown only if even unmuted autoplay is blocked (very rare).
-  const [showPlayOverlay, setShowPlayOverlay] = useState(false);
+  // In kiosk mode, show the overlay immediately so the user tap provides
+  // the browser user-activation required for autoplay + fullscreen.
+  const [showPlayOverlay, setShowPlayOverlay] = useState(kioskMode);
 
   const player = useVideoPlayer(uri, (p) => {
     p.loop = false;
-    // On web, _mountedVideos is empty at this point (VideoView not yet mounted),
-    // so p.play() would iterate over an empty Set and do nothing.
-    // We trigger play() in the readyToPlay useEffect instead.
-    // On native, play() works immediately.
-    if (Platform.OS !== "web") {
+    // Kiosk mode: do NOT attempt to play — wait for the tap gesture.
+    // Normal mode on native: play() works immediately.
+    if (Platform.OS !== "web" && !kioskMode) {
       p.play();
     }
-    // No muting: the user clicked on the question (user gesture), so the browser
-    // allows unmuted autoplay unconditionally on that tab.
+    // On web (non-kiosk): play() is triggered in readyToPlay effect.
   });
 
   const { status } = useEvent(player, "statusChange", {
@@ -75,26 +77,32 @@ export function FullScreenPlayer({ uri, onEnd }: Props) {
     if (status !== "readyToPlay") return;
 
     if (Platform.OS !== "web") {
-      // Native: enter fullscreen once the player is initialised.
+      // Native kiosk: also wait for the tap overlay.
+      if (kioskMode) return;
+      // Native normal: enter fullscreen once the player is initialised.
       if (!hasEnteredFullscreen.current) {
         hasEnteredFullscreen.current = true;
         videoViewRef.current?.enterFullscreen();
       }
     } else {
-      // Web: play() in the setup callback did nothing (no DOM element yet).
+      // Web non-kiosk: play() in the setup callback did nothing (no DOM element yet).
       // The user's click on the question gives the tab user activation,
       // so unmuted autoplay is allowed.
-      player.play();
+      if (!kioskMode) {
+        player.play();
+      }
+      // Kiosk mode: tap overlay is already visible; handleTapToPlay() will play + fullscreen.
     }
   }, [status]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Web: show fallback overlay only if the source itself fails to load.
+  // Web: show fallback overlay if the source fails to load (non-kiosk only — in kiosk
+  // the overlay is already visible from the start).
   useEffect(() => {
     if (Platform.OS !== "web") return;
-    if (status === "error") {
+    if (!kioskMode && status === "error") {
       setShowPlayOverlay(true);
     }
-  }, [status]);
+  }, [status]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function requestWebFullscreen(): void {
     if (typeof document === "undefined") return;
@@ -122,7 +130,12 @@ export function FullScreenPlayer({ uri, onEnd }: Props) {
   function handleTapToPlay(): void {
     setShowPlayOverlay(false);
     player.play();
-    requestWebFullscreen();
+    if (Platform.OS === "web") {
+      requestWebFullscreen();
+    } else if (kioskMode && !hasEnteredFullscreen.current) {
+      hasEnteredFullscreen.current = true;
+      videoViewRef.current?.enterFullscreen();
+    }
   }
 
   return (
@@ -141,9 +154,12 @@ export function FullScreenPlayer({ uri, onEnd }: Props) {
         onFullscreenExit={unlockOrientation}
       />
 
-      {/* Fallback play overlay — only if browser blocks autoplay entirely */}
+      {/* Tap-to-play overlay: full-screen in kiosk mode, centred icon as fallback */}
       {showPlayOverlay && (
-        <Pressable style={styles.centeredOverlay} onPress={handleTapToPlay}>
+        <Pressable
+          style={kioskMode ? styles.kioskOverlay : styles.centeredOverlay}
+          onPress={handleTapToPlay}
+        >
           <View style={styles.playButton}>
             <Play size={PLAY_ICON_SIZE} color="#FFFFFF" fill="#FFFFFF" />
           </View>
@@ -161,6 +177,13 @@ const styles = StyleSheet.create({
   },
   video: {
     flex: 1,
+  },
+  // Full-page kiosk overlay: covers everything, tap anywhere to start
+  kioskOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.72)",
   },
   centeredOverlay: {
     ...StyleSheet.absoluteFillObject,

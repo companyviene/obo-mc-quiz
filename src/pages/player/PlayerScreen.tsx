@@ -26,9 +26,10 @@ const COUNTDOWN_START = REDIRECT_DELAY_MS / COUNTDOWN_INTERVAL_MS;
 
 interface Props {
   questionId: string;
+  kioskMode?: boolean;
 }
 
-export function PlayerScreen({ questionId }: Props) {
+export function PlayerScreen({ questionId, kioskMode = false }: Props) {
   const router = useRouter();
   const theme = useTheme();
   const { t } = useTranslation();
@@ -96,7 +97,11 @@ export function PlayerScreen({ questionId }: Props) {
 
   return (
     <View style={styles.container}>
-      <FullScreenPlayer uri={playbackUri} onEnd={handlePlaybackEnd} />
+      <FullScreenPlayer
+        uri={playbackUri}
+        onEnd={handlePlaybackEnd}
+        kioskMode={kioskMode}
+      />
       <View style={styles.overlay} pointerEvents="box-none">
         <View
           style={[styles.topBar, { backgroundColor: theme.bgOverlay }]}

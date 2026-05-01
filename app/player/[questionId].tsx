@@ -1,7 +1,10 @@
-import { useLocalSearchParams } from 'expo-router';
-import { PlayerScreen } from '@pages/player/PlayerScreen';
+import { useLocalSearchParams } from "expo-router";
+import { PlayerScreen } from "@pages/player/PlayerScreen";
 
 export default function PlayerRoute() {
-  const { questionId } = useLocalSearchParams<{ questionId: string }>();
-  return <PlayerScreen questionId={questionId} />;
+  const { questionId, kiosk } = useLocalSearchParams<{
+    questionId: string;
+    kiosk?: string;
+  }>();
+  return <PlayerScreen questionId={questionId} kioskMode={kiosk === "1"} />;
 }

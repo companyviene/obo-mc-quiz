@@ -36,9 +36,9 @@ function getColumnCount(screenWidth: number): 1 | 2 | 3 {
 
 function buildVideoUrl(questionId: string): string {
   if (Platform.OS !== "web" || typeof window === "undefined") {
-    return `/player/${questionId}`;
+    return `/player/${questionId}?kiosk=1`;
   }
-  return `${window.location.origin}/player/${questionId}`;
+  return `${window.location.origin}/player/${questionId}?kiosk=1`;
 }
 
 export function ShowcaseScreen() {
