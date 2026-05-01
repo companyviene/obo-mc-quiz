@@ -39,20 +39,19 @@ function unlockOrientation(): void {
 
 export function FullScreenPlayer({ uri, onEnd, kioskMode = false }: Props) {
   const videoViewRef = useRef<VideoView>(null);
-  const hasEnteredFullscreen = useRef(false);
+  const hasAttemptedFullscreen = useRef(false);
 
-  // In kiosk mode, show the overlay immediately so the user tap provides
-  // the browser user-activation required for autoplay + fullscreen.
-  const [showPlayOverlay, setShowPlayOverlay] = useState(kioskMode);
+  // Overlay is shown only as a fallback when the browser blocks autoplay/fullscreen.
+  // It is never shown immediately — we always try first.
+  const [showPlayOverlay, setShowPlayOverlay] = useState(false);
 
   const player = useVideoPlayer(uri, (p) => {
     p.loop = false;
-    // Kiosk mode: do NOT attempt to play — wait for the tap gesture.
-    // Normal mode on native: play() works immediately.
-    if (Platform.OS !== "web" && !kioskMode) {
+    // Native non-kiosk: play() works immediately in the setup callback.
+    // Web & kiosk: play() is triggered in the readyToPlay effect (DOM not ready yet).
+    if (Platform.OS !== "web") {
       p.play();
     }
-    // On web (non-kiosk): play() is triggered in readyToPlay effect.
   });
 
   const { status } = useEvent(player, "statusChange", {
@@ -77,63 +76,101 @@ export function FullScreenPlayer({ uri, onEnd, kioskMode = false }: Props) {
     if (status !== "readyToPlay") return;
 
     if (Platform.OS !== "web") {
-      // Native kiosk: also wait for the tap overlay.
-      if (kioskMode) return;
-      // Native normal: enter fullscreen once the player is initialised.
-      if (!hasEnteredFullscreen.current) {
-        hasEnteredFullscreen.current = true;
+      // Native: enter fullscreen once the player is ready.
+      if (!hasAttemptedFullscreen.current) {
+        hasAttemptedFullscreen.current = true;
         videoViewRef.current?.enterFullscreen();
       }
-    } else {
-      // Web non-kiosk: play() in the setup callback did nothing (no DOM element yet).
-      // The user's click on the question gives the tab user activation,
-      // so unmuted autoplay is allowed.
-      if (!kioskMode) {
-        player.play();
-      }
-      // Kiosk mode: tap overlay is already visible; handleTapToPlay() will play + fullscreen.
-    }
-  }, [status]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Web: show fallback overlay if the source fails to load (non-kiosk only — in kiosk
-  // the overlay is already visible from the start).
-  useEffect(() => {
-    if (Platform.OS !== "web") return;
-    if (!kioskMode && status === "error") {
-      setShowPlayOverlay(true);
-    }
-  }, [status]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  function requestWebFullscreen(): void {
-    if (typeof document === "undefined") return;
-    if (document.fullscreenElement) return;
-    const vfPromise = videoViewRef.current?.enterFullscreen();
-    if (vfPromise) {
-      vfPromise.catch(() => {
-        const el = document.documentElement as Element & {
-          webkitRequestFullscreen?: () => Promise<void>;
-        };
-        (
-          el.requestFullscreen ?? el.webkitRequestFullscreen?.bind(el)
-        )?.().catch(() => {});
-      });
       return;
     }
-    const el = document.documentElement as Element & {
-      webkitRequestFullscreen?: () => Promise<void>;
+
+    // Web: always attempt play (works if the page has user activation — which is the
+    // case both for in-app navigation and for QR-code links opened by native scanners).
+    player.play();
+
+    // In kiosk mode, also attempt fullscreen immediately.
+    // On Android Chrome and modern iOS Safari, QR-scan navigation carries user activation,
+    // so requestFullscreen() succeeds without any additional tap.
+    // On browsers that block it, we catch the rejection and show the overlay.
+    if (kioskMode && !hasAttemptedFullscreen.current) {
+      hasAttemptedFullscreen.current = true;
+      requestWebFullscreen().catch(() => {
+        // Browser denied fullscreen (no user activation in this tab).
+        // Show overlay: a single tap will provide the gesture and retry.
+        setShowPlayOverlay(true);
+      });
+    }
+  }, [status]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Web: show overlay on load error (applies to both kiosk and normal mode).
+  useEffect(() => {
+    if (Platform.OS !== "web") return;
+    if (status === "error") setShowPlayOverlay(true);
+  }, [status]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  /**
+   * Attempts to enter fullscreen using all available APIs in order:
+   * 1. expo-video VideoView.enterFullscreen()  — cross-platform
+   * 2. Standard requestFullscreen()            — Chrome / Firefox
+   * 3. webkitRequestFullscreen()               — older Safari / macOS
+   * 4. video.webkitEnterFullScreen()           — iOS Safari video element
+   *
+   * Returns a Promise so callers can react to failure.
+   */
+  function requestWebFullscreen(): Promise<void> {
+    if (typeof document === "undefined") return Promise.resolve();
+    if (document.fullscreenElement) return Promise.resolve();
+
+    // expo-video's own method (may return a Promise on web)
+    const vfResult = videoViewRef.current?.enterFullscreen();
+    if (
+      vfResult != null &&
+      typeof (vfResult as unknown as PromiseLike<void>).then === "function"
+    ) {
+      return Promise.resolve(vfResult as unknown as void).catch(() =>
+        tryDomFullscreen(),
+      );
+    }
+
+    return tryDomFullscreen();
+  }
+
+  function tryDomFullscreen(): Promise<void> {
+    const docEl = document.documentElement as Element & {
+      webkitRequestFullscreen?: () => Promise<void> | void;
     };
-    (el.requestFullscreen ?? el.webkitRequestFullscreen?.bind(el))?.().catch(
-      () => {},
-    );
+
+    if (docEl.requestFullscreen) {
+      return docEl.requestFullscreen();
+    }
+    if (docEl.webkitRequestFullscreen) {
+      const r = docEl.webkitRequestFullscreen();
+      return r instanceof Promise ? r : Promise.resolve();
+    }
+
+    // Last resort for iOS Safari: call webkitEnterFullScreen on the <video> element.
+    const videoEl = document.querySelector("video") as
+      | (HTMLVideoElement & {
+          webkitEnterFullScreen?: () => void;
+        })
+      | null;
+    if (videoEl?.webkitEnterFullScreen) {
+      videoEl.webkitEnterFullScreen();
+      return Promise.resolve();
+    }
+
+    return Promise.reject(new Error("fullscreen API not available"));
   }
 
   function handleTapToPlay(): void {
     setShowPlayOverlay(false);
+    // Re-attempt play in case autoplay was also blocked silently.
     player.play();
     if (Platform.OS === "web") {
-      requestWebFullscreen();
-    } else if (kioskMode && !hasEnteredFullscreen.current) {
-      hasEnteredFullscreen.current = true;
+      // User gesture from the tap: fullscreen is now guaranteed to succeed.
+      requestWebFullscreen().catch(() => {});
+    } else if (!hasAttemptedFullscreen.current) {
+      hasAttemptedFullscreen.current = true;
       videoViewRef.current?.enterFullscreen();
     }
   }
@@ -147,19 +184,14 @@ export function FullScreenPlayer({ uri, onEnd, kioskMode = false }: Props) {
         fullscreenOptions={{ enable: true, orientation: "landscape" }}
         allowsPictureInPicture={false}
         contentFit="contain"
-        // nativeControls: shows the HTML5 control bar (play/pause, volume, fullscreen)
-        // on hover — on all platforms.
         nativeControls
         onFullscreenEnter={lockLandscape}
         onFullscreenExit={unlockOrientation}
       />
 
-      {/* Tap-to-play overlay: full-screen in kiosk mode, centred icon as fallback */}
+      {/* Fallback overlay — shown only when the browser blocks autoplay/fullscreen */}
       {showPlayOverlay && (
-        <Pressable
-          style={kioskMode ? styles.kioskOverlay : styles.centeredOverlay}
-          onPress={handleTapToPlay}
-        >
+        <Pressable style={styles.tapOverlay} onPress={handleTapToPlay}>
           <View style={styles.playButton}>
             <Play size={PLAY_ICON_SIZE} color="#FFFFFF" fill="#FFFFFF" />
           </View>
@@ -178,17 +210,13 @@ const styles = StyleSheet.create({
   video: {
     flex: 1,
   },
-  // Full-page kiosk overlay: covers everything, tap anywhere to start
-  kioskOverlay: {
+  // Full-page overlay used as fallback when browser blocks autoplay/fullscreen.
+  // Dark semi-transparent background + centred play icon.
+  tapOverlay: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0,0,0,0.72)",
-  },
-  centeredOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: "center",
-    alignItems: "center",
   },
   playButton: {
     width: 100,
