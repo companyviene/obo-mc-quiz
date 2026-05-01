@@ -44,8 +44,11 @@ export function FullScreenPlayer({ uri, onEnd, kioskMode = false }: Props) {
   // Guard: run autoplay logic only once, even if statusChange fires several times.
   const autoplayDone = useRef(false);
 
-  // Fallback overlay — shown ONLY when the browser silently blocks autoplay.
-  const [showPlayOverlay, setShowPlayOverlay] = useState(false);
+  // Shown immediately in kiosk mode (QR code scan = fresh tab, no prior gesture)
+  // or as fallback when the browser silently blocks autoplay in normal mode.
+  const [showPlayOverlay, setShowPlayOverlay] = useState(
+    kioskMode && Platform.OS === 'web',
+  );
 
   const player = useVideoPlayer(uri, (p) => {
     p.loop = false;

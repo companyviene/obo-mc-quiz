@@ -1,6 +1,102 @@
 {
   "modules": [
     {
+      "id": "mod-intellectuel-obo",
+      "accentIndex": 1,
+      "i18n": {
+        "fr": {
+          "title": "Omar Bongo Ondimba : La Parole d'un Témoin Intellectuel",
+          "description": "L'œuvre, la vision et l'héritage d'Omar Bongo Ondimba à travers le regard d'un intellectuel."
+        },
+        "en": {
+          "title": "Omar Bongo Ondimba: The Voice of an Intellectual Witness",
+          "description": "Omar Bongo Ondimba's work, vision and legacy through the eyes of an intellectual."
+        }
+      },
+      "questions": [
+        {
+          "id": "q-obo1-01",
+          "i18n": {
+            "fr": {
+              "label": "Quelle place sacrée la jeunesse occupe-t-elle dans la vision d'Omar Bongo Ondimba ?"
+            },
+            "en": {
+              "label": "What sacred place does youth hold in Omar Bongo Ondimba's vision?"
+            }
+          },
+          "video": {
+            "id": "v-obo1-01",
+            "remoteUrl": "https://res.cloudinary.com/dupo9riqb/video/upload/obo3-01-jeunesse-sacree-vision-obo.mp4",
+            "durationSeconds": 0
+          }
+        },
+        {
+          "id": "q-obo1-02",
+          "i18n": {
+            "fr": {
+              "label": "Que retient un homme de lettres de l'œuvre politique et humaine d'OBO ?"
+            },
+            "en": {
+              "label": "What does a man of letters take away from OBO's political and human legacy?"
+            }
+          },
+          "video": {
+            "id": "v-obo1-02",
+            "remoteUrl": "https://res.cloudinary.com/dupo9riqb/video/upload/obo3-02-homme-lettres-oeuvre-obo.mp4",
+            "durationSeconds": 0
+          }
+        },
+        {
+          "id": "q-obo1-03",
+          "i18n": {
+            "fr": {
+              "label": "Quelle signification profonde la notion de nation revêt-elle pour Omar Bongo Ondimba ?"
+            },
+            "en": {
+              "label": "What deep meaning does the notion of nation hold for Omar Bongo Ondimba?"
+            }
+          },
+          "video": {
+            "id": "v-obo1-03",
+            "remoteUrl": "https://res.cloudinary.com/dupo9riqb/video/upload/obo3-03-symbolique-nation-obo.mp4",
+            "durationSeconds": 0
+          }
+        },
+        {
+          "id": "q-obo1-04",
+          "i18n": {
+            "fr": {
+              "label": "En quoi l'héritage politique de Léon Mba a-t-il forgé le parcours d'Omar Bongo Ondimba ?"
+            },
+            "en": {
+              "label": "How did Léon Mba's political legacy shape Omar Bongo Ondimba's path?"
+            }
+          },
+          "video": {
+            "id": "v-obo1-04",
+            "remoteUrl": "https://res.cloudinary.com/dupo9riqb/video/upload/obo3-04-influence-leon-mba-obo.mp4",
+            "durationSeconds": 0
+          }
+        },
+        {
+          "id": "q-obo1-05",
+          "i18n": {
+            "fr": {
+              "label": "Quelle nécessité a conduit cet auteur à consacrer un livre à Omar Bongo Ondimba ?"
+            },
+            "en": {
+              "label": "What compelled this author to dedicate a book to Omar Bongo Ondimba?"
+            }
+          },
+          "video": {
+            "id": "v-obo1-05",
+            "remoteUrl": "https://res.cloudinary.com/dupo9riqb/video/upload/obo3-05-pourquoi-livre-obo.mp4",
+            "durationSeconds": 0
+          }
+        }
+      ]
+    },
+    {
       "id": "mod-leadership-obo",
       "accentIndex": 0,
       "i18n": {
