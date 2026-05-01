@@ -95,37 +95,49 @@
           }
         },
         {
-          "id": "q-obo3-06",
+          "id": "q-obo1-06",
           "i18n": {
-            "fr": { "label": "Qu'est-ce qui justifie qu'Omar Bongo Ondimba mérite un livre qui lui soit entièrement dédié ?" },
-            "en": { "label": "What justifies that Omar Bongo Ondimba deserves a book entirely dedicated to him?" }
+            "fr": {
+              "label": "Qu'est-ce qui justifie qu'Omar Bongo Ondimba mérite un livre qui lui soit entièrement dédié ?"
+            },
+            "en": {
+              "label": "What justifies that Omar Bongo Ondimba deserves a book entirely dedicated to him?"
+            }
           },
           "video": {
-            "id": "v-obo3-06",
+            "id": "v-obo1-06",
             "remoteUrl": "https://res.cloudinary.com/dupo9riqb/video/upload/obo3-06-pourquoi-livre-dedie-obo.mp4",
             "durationSeconds": 0
           }
         },
         {
-          "id": "q-obo3-07",
+          "id": "q-obo1-07",
           "i18n": {
-            "fr": { "label": "Quelle empreinte Omar Bongo Ondimba a-t-il laissée dans le domaine de la santé ?" },
-            "en": { "label": "What mark did Omar Bongo Ondimba leave on the field of healthcare?" }
+            "fr": {
+              "label": "Quelle empreinte Omar Bongo Ondimba a-t-il laissée dans le domaine de la santé ?"
+            },
+            "en": {
+              "label": "What mark did Omar Bongo Ondimba leave on the field of healthcare?"
+            }
           },
           "video": {
-            "id": "v-obo3-07",
+            "id": "v-obo1-07",
             "remoteUrl": "https://res.cloudinary.com/dupo9riqb/video/upload/obo3-07-influence-sante-obo.mp4",
             "durationSeconds": 0
           }
         },
         {
-          "id": "q-obo3-08",
+          "id": "q-obo1-08",
           "i18n": {
-            "fr": { "label": "Que révèle une analyse approfondie des qualités d'homme d'État d'Omar Bongo Ondimba ?" },
-            "en": { "label": "What does an in-depth analysis reveal about Omar Bongo Ondimba's qualities as a statesman?" }
+            "fr": {
+              "label": "Que révèle une analyse approfondie des qualités d'homme d'État d'Omar Bongo Ondimba ?"
+            },
+            "en": {
+              "label": "What does an in-depth analysis reveal about Omar Bongo Ondimba's qualities as a statesman?"
+            }
           },
           "video": {
-            "id": "v-obo3-08",
+            "id": "v-obo1-08",
             "remoteUrl": "https://res.cloudinary.com/dupo9riqb/video/upload/obo3-08-qualites-homme-etat-obo.mp4",
             "durationSeconds": 0
           }
