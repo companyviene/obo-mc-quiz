@@ -26,8 +26,8 @@
           },
           "video": {
             "id": "v-obo1-01",
-            "remoteUrl": "https://res.cloudinary.com/dupo9riqb/video/upload/obo3-01-jeunesse-sacree-vision-obo.mp4",
-            "durationSeconds": 0
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777703824/intellectuel-obo-1-jeunesse-sacree-vision-obo_oubdgt.mp4",
+            "durationSeconds": 163
           }
         },
         {
@@ -42,8 +42,8 @@
           },
           "video": {
             "id": "v-obo1-02",
-            "remoteUrl": "https://res.cloudinary.com/dupo9riqb/video/upload/obo3-02-homme-lettres-oeuvre-obo.mp4",
-            "durationSeconds": 0
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777703817/intellectuel-obo-2-homme-lettres-oeuvre-obo_esou2u.mp4",
+            "durationSeconds": 71
           }
         },
         {
@@ -58,8 +58,8 @@
           },
           "video": {
             "id": "v-obo1-03",
-            "remoteUrl": "https://res.cloudinary.com/dupo9riqb/video/upload/obo3-03-symbolique-nation-obo.mp4",
-            "durationSeconds": 0
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777703817/intellectuel-obo-3-symbolique-nation-obo_sxazjn.mp4",
+            "durationSeconds": 103
           }
         },
         {
@@ -74,8 +74,8 @@
           },
           "video": {
             "id": "v-obo1-04",
-            "remoteUrl": "https://res.cloudinary.com/dupo9riqb/video/upload/obo3-04-influence-leon-mba-obo.mp4",
-            "durationSeconds": 0
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777703824/intellectuel-obo-4-influence-leon-mba-obo_rrrvwp.mp4",
+            "durationSeconds": 116
           }
         },
         {
@@ -90,8 +90,8 @@
           },
           "video": {
             "id": "v-obo1-05",
-            "remoteUrl": "https://res.cloudinary.com/dupo9riqb/video/upload/obo3-05-pourquoi-livre-obo.mp4",
-            "durationSeconds": 0
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777703817/intellectuel-obo-5-pourquoi-livre-obo_xl3lfn.mp4",
+            "durationSeconds": 101
           }
         },
         {
@@ -106,8 +106,8 @@
           },
           "video": {
             "id": "v-obo1-06",
-            "remoteUrl": "https://res.cloudinary.com/dupo9riqb/video/upload/obo3-06-pourquoi-livre-dedie-obo.mp4",
-            "durationSeconds": 0
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777703811/intellectuel-obo-6-pourquoi-livre-dedie-obo_nj9syt.mp4",
+            "durationSeconds": 110
           }
         },
         {
@@ -122,8 +122,8 @@
           },
           "video": {
             "id": "v-obo1-07",
-            "remoteUrl": "https://res.cloudinary.com/dupo9riqb/video/upload/obo3-07-influence-sante-obo.mp4",
-            "durationSeconds": 0
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777704125/intellectuel-obo-7-influence-sante-obo_zcwm0z.mp4",
+            "durationSeconds": 130
           }
         },
         {
@@ -138,8 +138,8 @@
           },
           "video": {
             "id": "v-obo1-08",
-            "remoteUrl": "https://res.cloudinary.com/dupo9riqb/video/upload/obo3-08-qualites-homme-etat-obo.mp4",
-            "durationSeconds": 0
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777704119/intellectuel-obo-8-qualites-homme-etat-obo_fxjdsm.mp4",
+            "durationSeconds": 98
           }
         }
       ]
@@ -171,7 +171,7 @@
           "video": {
             "id": "v-obo2-01",
             "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777668589/leadership-obo-1-vision-naissance-obo-masterclass_nuv3yk.mp4",
-            "durationSeconds": 334
+            "durationSeconds": 343
           }
         },
         {
@@ -187,7 +187,7 @@
           "video": {
             "id": "v-obo2-02",
             "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777668427/leadership-obo-2-alliance-strategique-gabon-maroc_if0eby.mp4",
-            "durationSeconds": 110
+            "durationSeconds": 77
           }
         },
         {
@@ -203,7 +203,7 @@
           "video": {
             "id": "v-obo2-03",
             "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777668454/leadership-obo-3-facettes-personnalite-obo-continent_nnvey9.mp4",
-            "durationSeconds": 29
+            "durationSeconds": 100
           }
         },
         {
@@ -219,7 +219,7 @@
           "video": {
             "id": "v-obo2-04",
             "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777668376/leadership-obo-4-art-diplomatie-humaine-obo_fdtmj8.mp4",
-            "durationSeconds": 37
+            "durationSeconds": 49
           }
         },
         {
@@ -235,7 +235,7 @@
           "video": {
             "id": "v-obo2-05",
             "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777668590/leadership-obo-5-curiosite-culturelle-puissance-obo_qkysfg.mp4",
-            "durationSeconds": 265
+            "durationSeconds": 275
           }
         },
         {
@@ -251,7 +251,7 @@
           "video": {
             "id": "v-obo2-06",
             "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777668429/leadership-obo-6-participatif-heritage-afrique_oiby2d.mp4",
-            "durationSeconds": 64
+            "durationSeconds": 75
           }
         },
         {
@@ -267,7 +267,7 @@
           "video": {
             "id": "v-obo2-07",
             "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777668518/leadership-obo-7-gabon-echiquier-mondial-obo_o2br6a.mp4",
-            "durationSeconds": 172
+            "durationSeconds": 183
           }
         },
         {
@@ -283,7 +283,7 @@
           "video": {
             "id": "v-obo2-08",
             "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777668603/leadership-obo-8-modernite-tradition-gouvernance-obo_jt4aam.mp4",
-            "durationSeconds": 211
+            "durationSeconds": 222
           }
         },
         {
@@ -299,7 +299,7 @@
           "video": {
             "id": "v-obo2-09",
             "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777668492/leadership-obo-9-pensee-strategique-leaders-demain_wharwu.mp4",
-            "durationSeconds": 80
+            "durationSeconds": 91
           }
         },
         {
@@ -315,7 +315,7 @@
           "video": {
             "id": "v-obo2-10",
             "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777668450/leadership-obo-10-methode-prise-decision-obo_ukrsqi.mp4",
-            "durationSeconds": 68
+            "durationSeconds": 82
           }
         },
         {
@@ -331,7 +331,7 @@
           "video": {
             "id": "v-obo2-11",
             "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777668370/leadership-obo-11-vision-actes-concrets-durables_zycoy7.mp4",
-            "durationSeconds": 52
+            "durationSeconds": 62
           }
         },
         {
@@ -347,7 +347,7 @@
           "video": {
             "id": "v-obo2-12",
             "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777668391/leadership-obo-12-proximite-nature-exceptionnelle-obo_kp4llg.mp4",
-            "durationSeconds": 43
+            "durationSeconds": 54
           }
         },
         {
@@ -363,7 +363,7 @@
           "video": {
             "id": "v-obo2-13",
             "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777668558/leadership-obo-13-don-de-soi-obo-lecon-afrique_ryigot.mp4",
-            "durationSeconds": 153
+            "durationSeconds": 133
           }
         }
       ]
