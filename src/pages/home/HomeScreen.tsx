@@ -13,6 +13,7 @@ import { ModuleCard } from "@features/module-selection";
 import { useCatalog } from "@shared/api/useCatalog";
 import { Breakpoint, Spacing, useTheme } from "@shared/design-system";
 import { AppHeader } from "@shared/ui/AppHeader";
+import { StarField } from "@shared/ui/StarField";
 import { Txt } from "@shared/ui/Txt";
 
 const GRID_GAP = Spacing[4];
@@ -59,6 +60,7 @@ export function HomeScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.bgBase }]}>
+      <StarField opacity={0.45} />
       <AppHeader paddingHorizontal={GRID_PADDING} />
       <FlatList
         key={String(numColumns)}
