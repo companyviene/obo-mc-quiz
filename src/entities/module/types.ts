@@ -7,5 +7,6 @@ export interface Module {
   title: string;
   description: string;
   accentIndex: AccentIndex;
+  masterClassNumber: string;
   questions: Question[];
 }

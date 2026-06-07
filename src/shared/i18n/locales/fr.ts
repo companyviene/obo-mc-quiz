@@ -12,6 +12,7 @@ const fr: TranslationSchema = {
     back: "Retour",
     a11yBack: "Retour à la liste des modules",
     sectionLabel: "Choisissez une question",
+    masterClassBadge: "Master Class {{number}}",
     questionCount_one: "{{count}} question",
     questionCount_other: "{{count}} questions",
   },

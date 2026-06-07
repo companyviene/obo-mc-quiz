@@ -36,10 +36,17 @@ export function ModuleCard({ module, onPress }: Props) {
           {module.description}
         </Txt>
         <View style={styles.footer}>
-          <View style={[styles.countPill, { backgroundColor: theme.accentTint }]}>
-            <Txt style={[styles.countText, { color: theme.accent }]}>
-              {t('module.questionCount', { count: module.questions.length })}
-            </Txt>
+          <View style={styles.badgeGroup}>
+            <View style={[styles.pill, { backgroundColor: theme.bgHighlight }]}>
+              <Txt style={[styles.pillText, { color: theme.textSecondary }]}>
+                {t('module.masterClassBadge', { number: module.masterClassNumber })}
+              </Txt>
+            </View>
+            <View style={[styles.pill, { backgroundColor: theme.accentTint }]}>
+              <Txt style={[styles.pillText, { color: theme.accent }]}>
+                {t('module.questionCount', { count: module.questions.length })}
+              </Txt>
+            </View>
           </View>
           <ChevronRight size={IconSize.sm} color={theme.textMuted} />
         </View>
@@ -70,12 +77,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: Spacing[2],
   },
-  countPill: {
+  badgeGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing[2],
+  },
+  pill: {
     borderRadius: Radius.full,
     paddingHorizontal: Spacing[3],
     paddingVertical: Spacing[1],
   },
-  countText: {
+  pillText: {
     fontFamily: FontFamily.semibold,
     fontSize: FontSize.xs,
   },

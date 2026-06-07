@@ -12,6 +12,7 @@ export interface TranslationSchema {
     back: string;
     a11yBack: string;
     sectionLabel: string;
+    masterClassBadge: string;
     questionCount_one: string;
     questionCount_other: string;
   };

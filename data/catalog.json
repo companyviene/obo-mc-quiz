@@ -2,6 +2,7 @@
   "modules": [
     {
       "id": "mod-intellectuel-obo",
+      "masterClassNumber": "1",
       "accentIndex": 1,
       "i18n": {
         "fr": {
@@ -146,6 +147,7 @@
     },
     {
       "id": "mod-leadership-obo",
+      "masterClassNumber": "2",
       "accentIndex": 0,
       "i18n": {
         "fr": {
@@ -364,6 +366,87 @@
             "id": "v-obo2-13",
             "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1777668558/leadership-obo-13-don-de-soi-obo-lecon-afrique_ryigot.mp4",
             "durationSeconds": 133
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod-patrimoine-obo",
+      "masterClassNumber": "3.1",
+      "accentIndex": 2,
+      "i18n": {
+        "fr": {
+          "title": "Omar Bongo Ondimba : Gardien du Patrimoine et de la Nature du Gabon",
+          "description": "La vision d'Omar Bongo Ondimba pour valoriser et protéger la richesse culturelle et naturelle du Gabon."
+        },
+        "en": {
+          "title": "Omar Bongo Ondimba: Guardian of Gabon's Heritage and Nature",
+          "description": "Omar Bongo Ondimba's vision for showcasing and protecting Gabon's cultural and natural wealth."
+        }
+      },
+      "questions": [
+        {
+          "id": "q-obo3-01",
+          "i18n": {
+            "fr": {
+              "label": "Quelle approche a permis à Omar Bongo Ondimba de mettre en valeur la richesse du patrimoine gabonais ?"
+            },
+            "en": {
+              "label": "What approach allowed Omar Bongo Ondimba to showcase the richness of Gabon's heritage?"
+            }
+          },
+          "video": {
+            "id": "v-obo3-01",
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1780871764/patrimoine-obo-1-richesse-patrimoine-gabonais_dccimb.mp4",
+            "durationSeconds": 0
+          }
+        },
+        {
+          "id": "q-obo3-02",
+          "i18n": {
+            "fr": {
+              "label": "Quelles initiatives Omar Bongo Ondimba a-t-il menées pour protéger l'environnement gabonais ?"
+            },
+            "en": {
+              "label": "What initiatives did Omar Bongo Ondimba lead to protect Gabon's environment?"
+            }
+          },
+          "video": {
+            "id": "v-obo3-02",
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/patrimoine-obo-2-initiatives-protection-environnement.mp4",
+            "durationSeconds": 0
+          }
+        },
+        {
+          "id": "q-obo3-03",
+          "i18n": {
+            "fr": {
+              "label": "Quel rôle Omar Bongo Ondimba a-t-il joué dans la préservation de l'environnement au Gabon ?"
+            },
+            "en": {
+              "label": "What role did Omar Bongo Ondimba play in preserving Gabon's environment?"
+            }
+          },
+          "video": {
+            "id": "v-obo3-03",
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1780871744/patrimoine-obo-3-role-preservation-environnement-gabon_oyexys.mp4",
+            "durationSeconds": 0
+          }
+        },
+        {
+          "id": "q-obo3-04",
+          "i18n": {
+            "fr": {
+              "label": "Quelles décisions Omar Bongo Ondimba a-t-il prises pour protéger l'écosystème gabonais ?"
+            },
+            "en": {
+              "label": "What decisions did Omar Bongo Ondimba make to protect Gabon's ecosystem?"
+            }
+          },
+          "video": {
+            "id": "v-obo3-04",
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1780871750/patrimoine-obo-4-decisions-protection-ecosysteme-gabonais_i35ujm.mp4",
+            "durationSeconds": 0
           }
         }
       ]

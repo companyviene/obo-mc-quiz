@@ -28,6 +28,7 @@ interface CatalogQuestionJson {
 interface CatalogModuleJson {
   id: string;
   accentIndex: AccentIndex;
+  masterClassNumber: string;
   i18n: Record<SupportedLocale, CatalogI18nContent>;
   questions: CatalogQuestionJson[];
 }
@@ -53,6 +54,7 @@ function mapModule(raw: CatalogModuleJson, locale: SupportedLocale): Module {
   return {
     id: raw.id,
     accentIndex: raw.accentIndex,
+    masterClassNumber: raw.masterClassNumber,
     title: raw.i18n[locale].title,
     description: raw.i18n[locale].description,
     questions: raw.questions.map((q) => mapQuestion(q, raw.id, locale)),
