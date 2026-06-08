@@ -386,7 +386,7 @@
       },
       "questions": [
         {
-          "id": "q-obo3-01",
+          "id": "q-obo3.1-01",
           "i18n": {
             "fr": {
               "label": "Quelle approche a permis à Omar Bongo Ondimba de mettre en valeur la richesse du patrimoine gabonais ?"
@@ -396,13 +396,13 @@
             }
           },
           "video": {
-            "id": "v-obo3-01",
+            "id": "V-obo3.1-01",
             "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1780871764/patrimoine-obo-1-richesse-patrimoine-gabonais_dccimb.mp4",
-            "durationSeconds": 0
+            "durationSeconds": 296
           }
         },
         {
-          "id": "q-obo3-02",
+          "id": "q-obo3.1-02",
           "i18n": {
             "fr": {
               "label": "Quelles initiatives Omar Bongo Ondimba a-t-il menées pour protéger l'environnement gabonais ?"
@@ -412,13 +412,13 @@
             }
           },
           "video": {
-            "id": "v-obo3-02",
+            "id": "V-obo3.1-02",
             "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/patrimoine-obo-2-initiatives-protection-environnement.mp4",
             "durationSeconds": 0
           }
         },
         {
-          "id": "q-obo3-03",
+          "id": "q-obo3.1-03",
           "i18n": {
             "fr": {
               "label": "Quel rôle Omar Bongo Ondimba a-t-il joué dans la préservation de l'environnement au Gabon ?"
@@ -428,13 +428,13 @@
             }
           },
           "video": {
-            "id": "v-obo3-03",
+            "id": "V-obo3.1-03",
             "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1780871744/patrimoine-obo-3-role-preservation-environnement-gabon_oyexys.mp4",
-            "durationSeconds": 0
+            "durationSeconds": 243
           }
         },
         {
-          "id": "q-obo3-04",
+          "id": "q-obo3.1-04",
           "i18n": {
             "fr": {
               "label": "Quelles décisions Omar Bongo Ondimba a-t-il prises pour protéger l'écosystème gabonais ?"
@@ -444,9 +444,154 @@
             }
           },
           "video": {
-            "id": "v-obo3-04",
+            "id": "V-obo3.1-04",
             "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1780871750/patrimoine-obo-4-decisions-protection-ecosysteme-gabonais_i35ujm.mp4",
-            "durationSeconds": 0
+            "durationSeconds": 259
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod-culture-obo",
+      "masterClassNumber": "3.2",
+      "accentIndex": 2,
+      "i18n": {
+        "fr": {
+          "title": "Omar Bongo Ondimba : Passeur de Culture et de Civilisation Bantu",
+          "description": "La passion d'Omar Bongo Ondimba pour la culture, les arts et les traditions, et son rôle dans la création du CICIBA, le Centre International des Civilisations Bantu."
+        },
+        "en": {
+          "title": "Omar Bongo Ondimba: Champion of Bantu Culture and Civilization",
+          "description": "Omar Bongo Ondimba's passion for culture, arts and traditions, and his role in founding CICIBA, the International Center for Bantu Civilizations."
+        }
+      },
+      "questions": [
+        {
+          "id": "q-obo3.2-01",
+          "i18n": {
+            "fr": {
+              "label": "Comment est né le projet CICIBA dans l'esprit d'Omar Bongo Ondimba ?"
+            },
+            "en": {
+              "label": "How did the CICIBA project take shape in Omar Bongo Ondimba's mind?"
+            }
+          },
+          "video": {
+            "id": "V-obo3.2-01",
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1780898233/culture-obo-1-genese-projet-ciciba_er2rva.mp4",
+            "durationSeconds": 207
+          }
+        },
+        {
+          "id": "q-obo3.2-02",
+          "i18n": {
+            "fr": {
+              "label": "Quels cercles privés ont contribué à la naissance du projet CICIBA ?"
+            },
+            "en": {
+              "label": "What private circles contributed to the birth of the CICIBA project?"
+            }
+          },
+          "video": {
+            "id": "V-obo3.2-02",
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1780898639/culture-obo-2-cercles-prives-ciciba_uuu5qi.mp4",
+            "durationSeconds": 351
+          }
+        },
+        {
+          "id": "q-obo3.2-03",
+          "i18n": {
+            "fr": {
+              "label": "Quelles ont été les grandes étapes de la construction du projet CICIBA ?"
+            },
+            "en": {
+              "label": "What were the major milestones in building the CICIBA project?"
+            }
+          },
+          "video": {
+            "id": "V-obo3.2-03",
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/culture-obo-3-etapes-construction-ciciba.mp4",
+            "durationSeconds": 519
+          }
+        },
+        {
+          "id": "q-obo3.2-04",
+          "i18n": {
+            "fr": {
+              "label": "Quel intérêt le projet CICIBA a-t-il suscité sur la scène internationale ?"
+            },
+            "en": {
+              "label": "What interest did the CICIBA project spark on the international stage?"
+            }
+          },
+          "video": {
+            "id": "V-obo3.2-04",
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1780898697/culture-obo-4-interet-international-ciciba_l9gl0y.mp4",
+            "durationSeconds": 264
+          }
+        },
+        {
+          "id": "q-obo3.2-05",
+          "i18n": {
+            "fr": {
+              "label": "Quelle place le président Omar Bongo Ondimba accordait-il à la culture, aux arts et aux rythmes nationaux ?"
+            },
+            "en": {
+              "label": "What place did President Omar Bongo Ondimba give to national culture, arts and rhythms?"
+            }
+          },
+          "video": {
+            "id": "V-obo3.2-05",
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1780898877/culture-obo-5-place-culture-arts-rythmes_adn3oh.mp4",
+            "durationSeconds": 314
+          }
+        },
+        {
+          "id": "q-obo3.2-06",
+          "i18n": {
+            "fr": {
+              "label": "Quel lien Omar Bongo Ondimba entretenait-il avec la culture, nos rythmes et nos traditions ?"
+            },
+            "en": {
+              "label": "What bond did Omar Bongo Ondimba have with culture, our rhythms and our traditions?"
+            }
+          },
+          "video": {
+            "id": "V-obo3.2-06",
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/culture-obo-6-lien-culture-rythmes-traditions.mp4",
+            "durationSeconds": 153
+          }
+        },
+        {
+          "id": "q-obo3.2-07",
+          "i18n": {
+            "fr": {
+              "label": "Quelles anecdotes révèlent un autre visage du président Omar Bongo Ondimba ?"
+            },
+            "en": {
+              "label": "What anecdotes reveal another side of President Omar Bongo Ondimba?"
+            }
+          },
+          "video": {
+            "id": "V-obo3.2-07",
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/culture-obo-7-anecdotes-president-obo.mp4",
+            "durationSeconds": 134
+          }
+        },
+        {
+          "id": "q-obo3.2-08",
+          "i18n": {
+            "fr": {
+              "label": "Que révèle le projet CICIBA sur la personnalité profonde d'Omar Bongo Ondimba ?"
+            },
+            "en": {
+              "label": "What does the CICIBA project reveal about Omar Bongo Ondimba's deeper personality?"
+            }
+          },
+          "video": {
+            "id": "V-obo3.2-08",
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/culture-obo-8-personnalite-obo-ciciba.mp4",
+            "durationSeconds": 73
           }
         }
       ]
