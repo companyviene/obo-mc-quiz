@@ -413,8 +413,8 @@
           },
           "video": {
             "id": "V-obo3.1-02",
-            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/patrimoine-obo-2-initiatives-protection-environnement.mp4",
-            "durationSeconds": 0
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1780901129/patrimoine-obo-2-initiatives-protection-environnement_g28asl.mp4",
+            "durationSeconds": 414
           }
         },
         {
@@ -494,7 +494,7 @@
           },
           "video": {
             "id": "V-obo3.2-02",
-            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1780898639/culture-obo-2-cercles-prives-ciciba_uuu5qi.mp4",
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1780902637/culture-obo-2-cercles-prives-ciciba_a7yoci.mp4",
             "durationSeconds": 351
           }
         },
@@ -510,7 +510,7 @@
           },
           "video": {
             "id": "V-obo3.2-03",
-            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/culture-obo-3-etapes-construction-ciciba.mp4",
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1780903489/culture-obo-3-etapes-construction-ciciba_ewdqum.mp4",
             "durationSeconds": 519
           }
         },
@@ -558,7 +558,7 @@
           },
           "video": {
             "id": "V-obo3.2-06",
-            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/culture-obo-6-lien-culture-rythmes-traditions.mp4",
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1780903055/culture-obo-6-lien-culture-rythmes-traditions_oi9xz5.mp4",
             "durationSeconds": 153
           }
         },
@@ -574,7 +574,7 @@
           },
           "video": {
             "id": "V-obo3.2-07",
-            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/culture-obo-7-anecdotes-president-obo.mp4",
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1780903148/culture-obo-7-anecdotes-president-obo_kuoztt.mp4",
             "durationSeconds": 134
           }
         },
@@ -590,7 +590,7 @@
           },
           "video": {
             "id": "V-obo3.2-08",
-            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/culture-obo-8-personnalite-obo-ciciba.mp4",
+            "remoteUrl": "https://res.cloudinary.com/dx10drn43/video/upload/v1780902857/culture-obo-8-personnalite-obo-ciciba_jz4uao.mp4",
             "durationSeconds": 73
           }
         }
